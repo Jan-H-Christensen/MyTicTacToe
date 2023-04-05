@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyTicTacToe.MVVM.View.StartView"
+             xmlns:viewModel="clr-namespace:MyTicTacToe.MVVM.ViewModel"
+             x:DataType="viewModel:StartViewModel"
+             xmlns:models="clr-namespace:MyTicTacToe.MVVM.Model"
+             Title="StartView">
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="5*,5*" Padding="10" ColumnSpacing="20">
+            <Frame Grid.Column="0">
+                <Entry Text="{Binding PlayerOne.Name}" TextColor="Red"/>
+            </Frame>
+            <Frame Grid.Column="1">
+                <Entry Text="{Binding PlayerTwo.Name}" TextColor="Blue"/>
+            </Frame>
+        </Grid>
+        <Button Text="Start Game" HeightRequest="40" Command="{Binding GoToGameBoardCommand}"></Button>
+        <Label Text="{Binding Error }"/>
+    </VerticalStackLayout>
+</ContentPage>
