@@ -15,6 +15,8 @@ namespace MyTicTacToe.MVVM.ViewModel
     {
         ItemDatabase database = null;
 
+        public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
         private HubConnection? hubConnection;
 
         [ObservableProperty]
@@ -119,30 +121,36 @@ namespace MyTicTacToe.MVVM.ViewModel
         [RelayCommand]
         public async void SeclectedItem(TicTacToe selectedItem)
         {
-
-            //no selicting after a win
-            if (!string.IsNullOrWhiteSpace(selectedItem.GetSelectedText) || _isAnyoneWin) return;
-
-            //logic for player 1 & 2
-            if (_playerTurn == 0)
+            if (IsConnected)
             {
-                selectedItem.GetSelectedText = "X"; //player 1
+                //no selicting after a win
+                if (!string.IsNullOrWhiteSpace(selectedItem.GetSelectedText) || _isAnyoneWin) return;
+
+                //logic for player 1 & 2
+                if (_playerTurn == 0)
+                {
+                    selectedItem.GetSelectedText = "X"; //player 1
+                }
+                else
+                {
+                    selectedItem.GetSelectedText = "O"; //player 2
+                }
+
+                selectedItem.Player = _playerTurn;
+                // swaps the player
+                _playerTurn = _playerTurn == 0 ? 1 : 0;
+
+                if (hubConnection is not null)
+                {
+                    await hubConnection.SendAsync(MethodEndPoint.SendGame, selectedItem);
+                }
+
+                CheckWinner();
             }
             else
-            {
-                selectedItem.GetSelectedText = "O"; //player 2
+            { 
+                // Is Not Connected, Auto DisConnect
             }
-
-            selectedItem.Player = _playerTurn;
-            // swaps the player
-            _playerTurn = _playerTurn == 0 ? 1 : 0;
-
-            if (hubConnection != null) 
-            {
-                await hubConnection.SendAsync(MethodEndPoint.SendGame, selectedItem);
-            } 
-
-            CheckWinner();
         }
 
         private void CheckWinner()
