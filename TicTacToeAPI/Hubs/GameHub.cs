@@ -8,7 +8,8 @@ namespace TicTacToeAPI.Hubs
     {
         public Task SendGame(TicTacToe ticTacToe) 
         {
-            return Clients.All.SendAsync((""+MethodEndPoint.SendBord),ticTacToe);
+            Console.Out.WriteLineAsync(ticTacToe.Index+" : "+ticTacToe.getSelectedText);
+            return Clients.All.SendAsync(MethodEndPoint.SendBord,ticTacToe);
         }
     }
 }

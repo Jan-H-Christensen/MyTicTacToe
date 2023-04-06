@@ -11,7 +11,7 @@ namespace MyTicTacToe.MVVM.Model
         public int Index { get; set; }
 
         [ObservableProperty]
-        private string getSelectedText;
+        public string getSelectedText;
 
         /// <summary>
         /// player 0 = x
