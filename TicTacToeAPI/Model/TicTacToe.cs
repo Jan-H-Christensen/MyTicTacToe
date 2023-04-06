@@ -8,7 +8,7 @@
         }
         public int Index { get; set; }
 
-        private string getSelectedText;
+        public string getSelectedText;
 
         /// <summary>
         /// player 0 = x

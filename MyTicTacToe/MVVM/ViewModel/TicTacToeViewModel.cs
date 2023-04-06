@@ -1,8 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Android.Graphics;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.AspNetCore.SignalR.Client;
 using MyTicTacToe.MVVM.Model;
 using MyTicTacToe.Services;
 using System.Collections.ObjectModel;
+using TicTacToeAPI.Enum;
 
 namespace MyTicTacToe.MVVM.ViewModel
 {
@@ -11,6 +14,8 @@ namespace MyTicTacToe.MVVM.ViewModel
     public partial class TicTacToeViewModel : ObservableObject
     {
         ItemDatabase database = null;
+
+        private HubConnection? hubConnection;
 
         [ObservableProperty]
         private Player _playerOne;
@@ -37,6 +42,31 @@ namespace MyTicTacToe.MVVM.ViewModel
             PlayerTwo = new Player();
             PlayerList = new ObservableCollection<Player>();
             database = new ItemDatabase();
+
+            Task.Run(async () => {
+                await SetUpConnection();
+            });
+        }
+
+        private async Task SetUpConnection() 
+        {
+            
+            SignalR signalR = new SignalR();
+            hubConnection = await signalR.ConnectBordHub();
+      
+            hubConnection.On<TicTacToe>(MethodEndPoint.SendBord, (tictactoe) =>
+            {
+                foreach (TicTacToe item in ticTacToeList)
+                {
+                    if (item.Index == tictactoe.Index)
+                    {
+                        item.GetSelectedText = tictactoe.GetSelectedText;
+                        // Update Board
+                    }
+                }
+            });
+
+            await hubConnection.StartAsync();
         }
 
         private void SetupGameBoard()
@@ -87,7 +117,7 @@ namespace MyTicTacToe.MVVM.ViewModel
         }
 
         [RelayCommand]
-        public void SeclectedItem(TicTacToe selectedItem)
+        public async void SeclectedItem(TicTacToe selectedItem)
         {
 
             //no selicting after a win
@@ -107,7 +137,10 @@ namespace MyTicTacToe.MVVM.ViewModel
             // swaps the player
             _playerTurn = _playerTurn == 0 ? 1 : 0;
 
-
+            if (hubConnection != null) 
+            {
+                await hubConnection.SendAsync(MethodEndPoint.SendGame, selectedItem);
+            } 
 
             CheckWinner();
         }
