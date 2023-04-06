@@ -107,6 +107,8 @@ namespace MyTicTacToe.MVVM.ViewModel
             // swaps the player
             _playerTurn = _playerTurn == 0 ? 1 : 0;
 
+
+
             CheckWinner();
         }
 

@@ -11,9 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="Enum\" />
-    <Folder Include="Hubs\" />
     <Folder Include="Reposetory\" />
     <Folder Include="Services\" />
   </ItemGroup>
