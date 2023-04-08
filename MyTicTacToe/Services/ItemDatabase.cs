@@ -30,18 +30,19 @@ namespace MyTicTacToe.Services
             return await dbConnection.Table<Player>().ToListAsync();
         }
 
-        public async Task<int> SaveResultAsync(Player player)
-        {
-            await Init();
-            if (player.ID != 0)
-            {
-                return await dbConnection.UpdateAsync(player);
-            }
-            else
-            {
-                return await dbConnection.InsertAsync(player);
-            }
-        }
+        //public async Task<int> SaveResultAsync(Player player)
+        //{
+        //    //await Init();
+        //    //if (player.ID != 0)
+        //    //{
+        //    //    return await dbConnection.UpdateAsync(player);
+        //    //}
+        //    //else
+        //    //{
+        //    //    return await dbConnection.InsertAsync(player);
+        //    //}
+
+        //}
 
         /// <summary>
         /// Using SQL

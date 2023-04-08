@@ -53,22 +53,6 @@ namespace MyTicTacToe.MVVM.ViewModel
         private async Task SetUpConnection() 
         {
             
-            SignalR signalR = new SignalR();
-            hubConnection = await signalR.ConnectBordHub();
-      
-            hubConnection.On<TicTacToe>(MethodEndPoint.SendBord, (tictactoe) =>
-            {
-                foreach (TicTacToe item in ticTacToeList)
-                {
-                    if (item.Index == tictactoe.Index)
-                    {
-                        item.GetSelectedText = tictactoe.GetSelectedText;
-                        // Update Board
-                    }
-                }
-            });
-
-            await hubConnection.StartAsync();
         }
 
         private void SetupGameBoard()
@@ -142,7 +126,7 @@ namespace MyTicTacToe.MVVM.ViewModel
 
                 if (hubConnection is not null)
                 {
-                    await hubConnection.SendAsync(MethodEndPoint.SendGame, selectedItem);
+                    
                 }
 
                 CheckWinner();
@@ -177,9 +161,9 @@ namespace MyTicTacToe.MVVM.ViewModel
                         }
                         if (playerOneCount == 3)
                         {
-                            Players.Win += 1;
-                            PlayerTwo.Lose += 1;
-                            Console.WriteLine("Wins: " + Players.Win);
+                            //Players.Win += 1;
+                            //PlayerTwo.Lose += 1;
+                            //Console.WriteLine("Wins: " + Players.Win);
                             WinOrDrawText = "Player 1 wins";
                             _isAnyoneWin = true;
                             break;
@@ -195,8 +179,8 @@ namespace MyTicTacToe.MVVM.ViewModel
                         }
                         if (playerTwoCount == 3)
                         {
-                            PlayerTwo.Win += 1;
-                            Players.Lose += 1;
+                            //PlayerTwo.Win += 1;
+                            //Players.Lose += 1;
                             WinOrDrawText = "Player 2 wins";
                             _isAnyoneWin = true;
                             break;
@@ -208,46 +192,46 @@ namespace MyTicTacToe.MVVM.ViewModel
             if (ticTacToeList.Count(l => l.Player.HasValue) == 9 && !_isAnyoneWin)
             {
                 WinOrDrawText = "it is a draw";
-                Players.Draw += 1;
-                PlayerTwo.Draw += 1;
+                //Players.Draw += 1;
+                //PlayerTwo.Draw += 1;
                 //Preferences.Set(WinOrDrawText, _isAnyoneWin); to set data in Sql Lite
             }
         }
-        private async void AddHeighscore()
-        {
-            if (PlayerList.Where(p => p.Name == Players.Name).Count() != 0)
-            {
-                Player playerChange = PlayerList.Where(p => p.Name == Players.Name).First();
-                playerChange.Win += Players.Win;
-                playerChange.Draw += Players.Draw;
-                playerChange.Lose += Players.Lose;
-            }
-            else
-            {
-                PlayerList.Add(Players);
+        //private async void AddHeighscore()
+        //{
+        //    if (PlayerList.Where(p => p.Name == Players.Name).Count() != 0)
+        //    {
+        //        //Player playerChange = PlayerList.Where(p => p.Name == Players.Name).First();
+        //        //playerChange.Win += Players.Win;
+        //        //playerChange.Draw += Players.Draw;
+        //        //playerChange.Lose += Players.Lose;
+        //    }
+        //    else
+        //    {
+        //        PlayerList.Add(Players);
 
-            }
+        //    }
 
-            if (PlayerList.Where(p => p.Name == PlayerTwo.Name).Count() != 0)
-            {
-                Player playerChange = PlayerList.Where(p => p.Name == PlayerTwo.Name).First();
-                playerChange.Win += PlayerTwo.Win;
-                playerChange.Draw += PlayerTwo.Draw;
-                playerChange.Lose += PlayerTwo.Lose;
-            }
-            else
-            {
-                PlayerList.Add(PlayerTwo);
-            }
+        //    if (PlayerList.Where(p => p.Name == PlayerTwo.Name).Count() != 0)
+        //    {
+        //        Player playerChange = PlayerList.Where(p => p.Name == PlayerTwo.Name).First();
+        //        playerChange.Win += PlayerTwo.Win;
+        //        playerChange.Draw += PlayerTwo.Draw;
+        //        playerChange.Lose += PlayerTwo.Lose;
+        //    }
+        //    else
+        //    {
+        //        PlayerList.Add(PlayerTwo);
+        //    }
 
-            //await database.SaveResultAsync(PlayerOne);
-            //await database.SaveResultAsync(PlayerOne);
-        }
+        //    //await database.SaveResultAsync(PlayerOne);
+        //    //await database.SaveResultAsync(PlayerOne);
+        //}
 
         [RelayCommand]
         public async Task GoToHeighscore()
         {
-            AddHeighscore();
+            //AddHeighscore();
             //var convert = await database.GetPlayersAsync();
             //PlayerList = new ObservableCollection<Player>(convert);
             await Shell.Current.GoToAsync($"//HeighScore",true,

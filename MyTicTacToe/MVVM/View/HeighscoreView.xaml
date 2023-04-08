@@ -21,9 +21,9 @@
                         <DataTemplate x:DataType="models:Player">
                             <Grid ColumnDefinitions="125,50,50,50">
                                 <Label Text="{Binding Name}" Padding="2" HorizontalTextAlignment="Start" FontSize="16" Grid.Column="0"/>
-                                <Label Text="{Binding Win}" HorizontalTextAlignment="Center" FontSize="16" TextColor="Green" Grid.Column="1"/>
-                                <Label Text="{Binding Draw}" HorizontalTextAlignment="Center" FontSize="16" TextColor="Blue" Grid.Column="2"/>
-                                <Label Text="{Binding Lose}" HorizontalTextAlignment="Center" FontSize="16" TextColor="Red" Grid.Column="3"/>
+                                <Label Text="" HorizontalTextAlignment="Center" FontSize="16" TextColor="Green" Grid.Column="1"/>
+                                <Label Text="" HorizontalTextAlignment="Center" FontSize="16" TextColor="Blue" Grid.Column="2"/>
+                                <Label Text="" HorizontalTextAlignment="Center" FontSize="16" TextColor="Red" Grid.Column="3"/>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

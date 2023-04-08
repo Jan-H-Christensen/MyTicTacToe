@@ -1,15 +1,27 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using MyTicTacToe.MVVM.Model;
+using System.Numerics;
 using TicTacToeAPI.Enum;
 
 namespace TicTacToeAPI.Hubs
 {
     public class GameHub : Hub
     {
-        public Task SendGame(TicTacToe ticTacToe) 
+        public async Task ConnectToGameSession(Player player) 
         {
-            Console.Out.WriteLineAsync(ticTacToe.Index+" : "+ticTacToe.getSelectedText);
-            return Clients.All.SendAsync(MethodEndPoint.SendBord,ticTacToe);
+            await Groups.AddToGroupAsync(Context.ConnectionId, player.GroupName);
+
+            await Clients.OthersInGroup(player.GroupName).SendAsync("PlayerConnected", player);
+        }
+
+        public async Task StartGameSession(SessionStart session)
+        {
+            await Clients.OthersInGroup(session.GroupName).SendAsync("SessionStart", session);
+        }
+
+        public async Task UpdateGameSession(SessionStart session)
+        {
+            await Clients.OthersInGroup(session.GroupName).SendAsync("GameUpdate", session);
         }
     }
 }
