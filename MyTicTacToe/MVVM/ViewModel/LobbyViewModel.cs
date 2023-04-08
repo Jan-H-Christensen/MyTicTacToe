@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TicTacToeAPI.Enum;
 
 namespace MyTicTacToe.MVVM.ViewModel
 {
@@ -30,8 +31,8 @@ namespace MyTicTacToe.MVVM.ViewModel
         [RelayCommand]
         public async Task GoToGame()
         {
-            signalR.SessionStart = new SessionStart{ GroupName = Players.GroupName, SessionChar = "X",Player1 = Players.Name,Player2 = signalR.PlayerContainer };
-            await signalR.StartSession(new SessionStart { GroupName = Players.GroupName, SessionChar = "O", Player1 = Players.Name, Player2 = signalR.PlayerContainer });
+            signalR.SessionStart = new SessionStart{ GroupName = Players.GroupName, SessionChar = MethodEndPoint.X, Player1 = Players.Name,Player2 = signalR.PlayerContainer };
+            await signalR.StartSession(new SessionStart { GroupName = Players.GroupName, SessionChar = MethodEndPoint.O, Player1 = Players.Name, Player2 = signalR.PlayerContainer });
             await Shell.Current.GoToAsync($"//TicTacToe");
             Players = new Player();
         }

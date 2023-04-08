@@ -11,17 +11,17 @@ namespace TicTacToeAPI.Hubs
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, player.GroupName);
 
-            await Clients.OthersInGroup(player.GroupName).SendAsync("PlayerConnected", player);
+            await Clients.OthersInGroup(player.GroupName).SendAsync(MethodEndPoint.PlayerConnected, player);
         }
 
         public async Task StartGameSession(SessionStart session)
         {
-            await Clients.OthersInGroup(session.GroupName).SendAsync("SessionStart", session);
+            await Clients.OthersInGroup(session.GroupName).SendAsync(MethodEndPoint.SessionStart, session);
         }
 
         public async Task UpdateGameSession(SessionControler session)
         {
-            await Clients.OthersInGroup(session.GroupName).SendAsync("GameUpdate", session);
+            await Clients.OthersInGroup(session.GroupName).SendAsync(MethodEndPoint.GameUpdate, session);
         }
     }
 }

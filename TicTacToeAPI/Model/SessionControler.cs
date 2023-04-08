@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyTicTacToe.MVVM.Model
 {
-    internal class SessionControler
+    public class SessionControler
     {
         public string GroupName { get; set; }
         public bool Turn { get; set; }

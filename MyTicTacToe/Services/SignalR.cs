@@ -67,19 +67,19 @@ namespace MyTicTacToe.Services
                 .WithAutomaticReconnect()
                 .Build();
 
-            hubConnection.On<Player>("PlayerConnected",(Player) =>
+            hubConnection.On<Player>(MethodEndPoint.PlayerConnected,(Player) =>
             {
                 PlayerContainer = Player.Name;
             });
 
-            hubConnection.On<SessionStart>("SessionStart",(SessionKey) =>
+            hubConnection.On<SessionStart>(MethodEndPoint.SessionStart,(SessionKey) =>
             {
                 SessionStart = SessionKey;
                 Player1 = SessionKey.Player1;
                 Player2 = SessionKey.Player2;
             });
 
-            hubConnection.On<SessionControler>("GameUpdate", (SessionKey) =>
+            hubConnection.On<SessionControler>(MethodEndPoint.GameUpdate, (SessionKey) =>
             {
                 foreach (TicTacToe item in ticTacToeList)
                 {
@@ -93,17 +93,17 @@ namespace MyTicTacToe.Services
 
             await hubConnection.StartAsync();
 
-            await hubConnection.SendAsync("ConnectToGameSession", MyPlayer);
+            await hubConnection.SendAsync(MethodEndPoint.ConnectToGameSession, MyPlayer);
         }
 
         public async Task StartSession(SessionStart sessionKey)
         {
-            await hubConnection.SendAsync("StartGameSession", sessionKey);
+            await hubConnection.SendAsync(MethodEndPoint.StartGameSession, sessionKey);
         }
 
         public async Task UpdateSession(SessionControler sessionKey)
         {
-            await hubConnection.SendAsync("UpdateGameSession", sessionKey);
+            await hubConnection.SendAsync(MethodEndPoint.UpdateGameSession, sessionKey);
         }
     }
 }
