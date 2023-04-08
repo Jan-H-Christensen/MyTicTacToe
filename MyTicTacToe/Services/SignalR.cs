@@ -13,13 +13,21 @@ namespace MyTicTacToe.Services
 {
     partial class SignalR : ObservableObject
     {
+
         private string IP = "localhost";
         private string Port = "7011";
 
         private HubConnection hubConnection;
 
-        public static readonly SignalR Instance = new SignalR();
+        public static SignalR? _instance;
 
+        private SignalR()
+        {
+        }
+        public static SignalR GetInstance()
+        {
+            return _instance ??= new SignalR();
+        }
         public ObservableCollection<TicTacToe> ticTacToeList { get; set; } = new ObservableCollection<TicTacToe>();
 
         [ObservableProperty]
@@ -42,11 +50,6 @@ namespace MyTicTacToe.Services
         [ObservableProperty]
         public string _player2 = "";
 
-
-
-        private SignalR()
-        {
-        }
 
         public async Task StartGame(Player MyPlayer) 
         {

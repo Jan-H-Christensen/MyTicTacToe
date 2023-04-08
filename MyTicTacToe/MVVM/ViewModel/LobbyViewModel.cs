@@ -10,14 +10,18 @@ using System.Threading.Tasks;
 namespace MyTicTacToe.MVVM.ViewModel
 {
     [QueryProperty(nameof(Players),nameof(Players))]
+    [QueryProperty(nameof(IsVisable), nameof(IsVisable))]
     public partial class LobbyViewModel : ObservableObject
     {
         [ObservableProperty]
         public Player _players;
 
+        [ObservableProperty]
+        public bool _isVisable;
         public LobbyViewModel()
         {
             Players = new Player();
+            IsVisable = false;
         }
 
         [RelayCommand]

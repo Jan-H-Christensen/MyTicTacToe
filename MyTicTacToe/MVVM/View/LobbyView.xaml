@@ -50,6 +50,7 @@
 
             <Button
                 Command="{Binding GoToGameCommand}"
+                IsVisible="{Binding IsVisable}"
                 Grid.Row="3"
                 Text="Start"/>
         </Grid>

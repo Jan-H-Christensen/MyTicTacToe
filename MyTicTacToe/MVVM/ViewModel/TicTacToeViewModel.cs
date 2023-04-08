@@ -13,17 +13,15 @@ namespace MyTicTacToe.MVVM.ViewModel
     //[QueryProperty(nameof(PlayerTwo), nameof(PlayerTwo))]
     public partial class TicTacToeViewModel : ObservableObject
     {
-        ItemDatabase database = null;
+        //ItemDatabase database = null;
 
-        public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
-
-        private HubConnection? hubConnection;
+        private SignalR signalR = SignalR.GetInstance();
 
         [ObservableProperty]
-        private Player _players;
+        private string _players;
 
         [ObservableProperty]
-        private Player _playerTwo;
+        private string _playerTwo;
 
         [ObservableProperty]
         private string _winOrDrawText;
@@ -32,22 +30,22 @@ namespace MyTicTacToe.MVVM.ViewModel
         private bool _isAnyoneWin;
 
         List<int[]> winPositions = new List<int[]>();
-        public ObservableCollection<TicTacToe> ticTacToeList { get; set; } = new ObservableCollection<TicTacToe>();
+        public ObservableCollection<TicTacToe> ticTacToeList { get; set; }
 
         [ObservableProperty]
         public ObservableCollection<Player> _playerList;
         //public Player Player { get; set; }
+
+        public bool isTurn;
+
         public TicTacToeViewModel()
         {
             SetupGameBoard();
-            Players = new Player();
-            PlayerTwo = new Player();
+            Players = signalR.Player1;
+            PlayerTwo = signalR.Player2;
             PlayerList = new ObservableCollection<Player>();
-            database = new ItemDatabase();
-
-            Task.Run(async () => {
-                await SetUpConnection();
-            });
+            ticTacToeList = signalR.ticTacToeList;
+            isTurn = signalR.Session.X_Or_O;
         }
 
         private async Task SetUpConnection() 
@@ -105,35 +103,41 @@ namespace MyTicTacToe.MVVM.ViewModel
         [RelayCommand]
         public async void SeclectedItem(TicTacToe selectedItem)
         {
-            if (IsConnected)
+            if (signalR.Session.X_Or_O)
             {
-                //no selicting after a win
-                if (!string.IsNullOrWhiteSpace(selectedItem.GetSelectedText) || _isAnyoneWin) return;
 
-                //logic for player 1 & 2
-                if (_playerTurn == 0)
+                if (signalR.IsConnected)
                 {
-                    selectedItem.GetSelectedText = "X"; //player 1
+                    //no selicting after a win
+                    if (!string.IsNullOrWhiteSpace(selectedItem.GetSelectedText) || _isAnyoneWin) return;
+
+                    //logic for player 1 & 2
+                    if (signalR.Session.X_Or_O ==)
+                    {
+                        selectedItem.GetSelectedText = "X"; //player 1
+                    }
+                    else
+                    {
+                        selectedItem.GetSelectedText = "O"; //player 2
+                    }
+
+                    selectedItem.Player = _playerTurn;
+                    // swaps the player
+                    _playerTurn = _playerTurn == 0 ? 1 : 0;
+
+                    if (signalR.hubConnection is not null)
+                    {
+                        signalR.Session.ticTacToe = selectedItem;
+                        await signalR.UpdateSession(signalR.Session);
+                        signalR.Session.X_Or_O = false;
+                    }
+
+                    CheckWinner();
                 }
                 else
                 {
-                    selectedItem.GetSelectedText = "O"; //player 2
+                    // Is Not Connected, Auto DisConnect
                 }
-
-                selectedItem.Player = _playerTurn;
-                // swaps the player
-                _playerTurn = _playerTurn == 0 ? 1 : 0;
-
-                if (hubConnection is not null)
-                {
-                    
-                }
-
-                CheckWinner();
-            }
-            else
-            { 
-                // Is Not Connected, Auto DisConnect
             }
         }
 

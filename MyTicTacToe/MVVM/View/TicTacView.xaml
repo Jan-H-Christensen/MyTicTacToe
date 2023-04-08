@@ -9,10 +9,10 @@
     <VerticalStackLayout VerticalOptions="CenterAndExpand" Padding="10" Spacing="20">
         <Grid ColumnDefinitions="5*,5*" Padding="10" ColumnSpacing="20">
             <Frame Grid.Column="0">
-                <Label Text="{Binding Players.Name}" TextColor="Red"/>
+                <Label Text="{Binding Players}" TextColor="Red"/>
             </Frame>
             <Frame Grid.Column="1">
-                <Label Text="{Binding PlayerTwo.Name}" TextColor="Blue"/>
+                <Label Text="{Binding PlayerTwo}" TextColor="Blue"/>
             </Frame>            
         </Grid>
 
