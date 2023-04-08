@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyTicTacToe.MVVM.Model
 {
-    internal class SessionStart
+    public class SessionStart : ObservableObject
     {
         public string GroupName { get; set; }
         public bool X_Or_O { get; set; }
