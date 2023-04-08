@@ -1,6 +1,8 @@
-﻿namespace MyTicTacToe.MVVM.Model
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace MyTicTacToe.MVVM.Model
 {
-    public partial class TicTacToe
+    public partial class TicTacToe : ObservableObject
     {
         public TicTacToe(int index) 
         {   
@@ -8,6 +10,7 @@
         }
         public int Index { get; set; }
 
+        [ObservableProperty]
         public string getSelectedText;
 
         /// <summary>

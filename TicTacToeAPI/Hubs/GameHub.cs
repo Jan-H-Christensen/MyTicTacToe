@@ -19,7 +19,7 @@ namespace TicTacToeAPI.Hubs
             await Clients.OthersInGroup(session.GroupName).SendAsync("SessionStart", session);
         }
 
-        public async Task UpdateGameSession(SessionStart session)
+        public async Task UpdateGameSession(SessionControler session)
         {
             await Clients.OthersInGroup(session.GroupName).SendAsync("GameUpdate", session);
         }

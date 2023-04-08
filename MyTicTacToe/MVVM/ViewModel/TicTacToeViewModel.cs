@@ -45,7 +45,7 @@ namespace MyTicTacToe.MVVM.ViewModel
             PlayerTwo = signalR.Player2;
             PlayerList = new ObservableCollection<Player>();
             ticTacToeList = signalR.ticTacToeList;
-            isTurn = signalR.Session.X_Or_O;
+            isTurn = signalR.SessionControll.Turn;
         }
 
         private async Task SetUpConnection() 
@@ -103,7 +103,7 @@ namespace MyTicTacToe.MVVM.ViewModel
         [RelayCommand]
         public async void SeclectedItem(TicTacToe selectedItem)
         {
-            if (signalR.Session.X_Or_O)
+            if (signalR.SessionControll.Turn)
             {
 
                 if (signalR.IsConnected)
@@ -112,7 +112,7 @@ namespace MyTicTacToe.MVVM.ViewModel
                     if (!string.IsNullOrWhiteSpace(selectedItem.GetSelectedText) || _isAnyoneWin) return;
 
                     //logic for player 1 & 2
-                    if (signalR.Session.X_Or_O ==)
+                    if (signalR.SessionStart.SessionChar.Equals("X"))
                     {
                         selectedItem.GetSelectedText = "X"; //player 1
                     }
@@ -121,15 +121,12 @@ namespace MyTicTacToe.MVVM.ViewModel
                         selectedItem.GetSelectedText = "O"; //player 2
                     }
 
-                    selectedItem.Player = _playerTurn;
-                    // swaps the player
-                    _playerTurn = _playerTurn == 0 ? 1 : 0;
-
                     if (signalR.hubConnection is not null)
                     {
-                        signalR.Session.ticTacToe = selectedItem;
-                        await signalR.UpdateSession(signalR.Session);
-                        signalR.Session.X_Or_O = false;
+                        signalR.SessionControll.ticTacToe = selectedItem;
+                        await signalR.UpdateSession(signalR.SessionControll);
+                        signalR.SessionControll.ticTacToe = null;
+                        signalR.SessionControll.Turn = false;
                     }
 
                     CheckWinner();
