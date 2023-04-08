@@ -18,10 +18,12 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddSingleton<StartViewModel>();
+		builder.Services.AddSingleton<LobbyViewModel>();
 		builder.Services.AddSingleton<TicTacToeViewModel>();
 		builder.Services.AddSingleton<HeighscoreViewModel>();
 
 		builder.Services.AddTransient<StartView>();
+		builder.Services.AddTransient<LobbyView>();
 		builder.Services.AddTransient<TicTacView>();
 		builder.Services.AddTransient<HeighscoreView>();
 

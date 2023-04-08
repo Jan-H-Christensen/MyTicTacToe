@@ -8,6 +8,7 @@
 
 
     <ShellContent Route="Start" Title="Start" ContentTemplate="{DataTemplate local:StartView}"/>
+    <ShellContent Route="Lobby" Title="Lobby" ContentTemplate="{DataTemplate local:LobbyView}"/>
     <ShellContent Route="TicTacToe" Title="TicTacToe" ContentTemplate="{DataTemplate local:TicTacView}"/>
     <ShellContent Route="HeighScore" Title="HeighScore" ContentTemplate="{DataTemplate local:HeighscoreView}"/>
 
