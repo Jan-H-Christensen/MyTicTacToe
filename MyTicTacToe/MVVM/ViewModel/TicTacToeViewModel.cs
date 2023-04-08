@@ -48,11 +48,6 @@ namespace MyTicTacToe.MVVM.ViewModel
             isTurn = signalR.SessionControll.Turn;
         }
 
-        private async Task SetUpConnection() 
-        {
-            
-        }
-
         private void SetupGameBoard()
         {
             //posible win´positions
@@ -112,7 +107,7 @@ namespace MyTicTacToe.MVVM.ViewModel
                     if (!string.IsNullOrWhiteSpace(selectedItem.GetSelectedText) || _isAnyoneWin) return;
 
                     //logic for player 1 & 2
-                    if (signalR.SessionStart.SessionChar.Equals("X"))
+                    if (signalR.SessionStart.SessionChar.Equals(MethodEndPoint.X))
                     {
                         selectedItem.GetSelectedText = "X"; //player 1
                     }
