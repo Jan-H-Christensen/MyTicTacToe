@@ -26,7 +26,7 @@ namespace MyTicTacToe.MVVM.ViewModel
         {
             if(Players.Name != null || Players.GroupName != null) 
             {
-                //await signalR.StartGame(Players);
+                await signalR.StartGame(Players);
                 await Shell.Current.GoToAsync($"//Lobby", true,
                     new Dictionary<string, object>
                     {
@@ -46,7 +46,7 @@ namespace MyTicTacToe.MVVM.ViewModel
         {          
             if (Players.Name != null || Players.GroupName != null)
             {
-                //await signalR.StartGame(Players);
+                await signalR.StartGame(Players);
                 await Shell.Current.GoToAsync($"//Lobby", true,
                     new Dictionary<string, object>
                     {

@@ -13,11 +13,12 @@ namespace MyTicTacToe.Services
 {
     partial class SignalR : ObservableObject
     {
+        public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
 
         private string IP = "localhost";
         private string Port = "7011";
 
-        private HubConnection hubConnection;
+        public HubConnection? hubConnection;
 
         public static SignalR? _instance;
 
@@ -41,9 +42,11 @@ namespace MyTicTacToe.Services
             set { group = value; }
         }
 
-        private Player PlayerGroupe;
+        [ObservableProperty]
+        public Player _playerGroupe;
 
-        private SessionStart Session;
+        [ObservableProperty]
+        public SessionStart _session;
 
         [ObservableProperty]
         public string _player1 = "";
@@ -86,6 +89,17 @@ namespace MyTicTacToe.Services
             await hubConnection.StartAsync();
 
             await hubConnection.SendAsync("ConnectToGameSession", MyPlayer);
+            Player1 = MyPlayer.Name;
+        }
+
+        public async Task StartSession(SessionStart sessionKey)
+        {
+            await hubConnection.SendAsync("StartGameSession", sessionKey);
+        }
+
+        public async Task UpdateSession(SessionStart sessionKey)
+        {
+            await hubConnection.SendAsync("UpdateGameSession", sessionKey);
         }
     }
 }
