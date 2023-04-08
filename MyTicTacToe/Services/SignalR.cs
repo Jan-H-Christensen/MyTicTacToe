@@ -9,13 +9,13 @@ namespace MyTicTacToe.Services
 {
     internal class SignalR
     {
-        string IP = "192.168.89.11";
+        string IP = "192.168.2.104";
         string Port = "5007";
 
         public async Task<HubConnection> ConnectBordHub() 
         {
             return new HubConnectionBuilder()
-                .WithUrl("http://"+IP+Port+ "/GameHub")
+                .WithUrl("http://" + IP + Port + "/GameHub")
                 .WithAutomaticReconnect()
                 .Build();
         }

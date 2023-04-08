@@ -1,4 +1,4 @@
-﻿using Android.Graphics;
+﻿//using Android.Graphics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -9,8 +9,8 @@ using TicTacToeAPI.Enum;
 
 namespace MyTicTacToe.MVVM.ViewModel
 {
-    [QueryProperty(nameof(PlayerOne), nameof(PlayerOne))]
-    [QueryProperty(nameof(PlayerTwo), nameof(PlayerTwo))]
+    [QueryProperty(nameof(Players), nameof(Players))]
+    //[QueryProperty(nameof(PlayerTwo), nameof(PlayerTwo))]
     public partial class TicTacToeViewModel : ObservableObject
     {
         ItemDatabase database = null;
@@ -20,7 +20,7 @@ namespace MyTicTacToe.MVVM.ViewModel
         private HubConnection? hubConnection;
 
         [ObservableProperty]
-        private Player _playerOne;
+        private Player _players;
 
         [ObservableProperty]
         private Player _playerTwo;
@@ -40,7 +40,7 @@ namespace MyTicTacToe.MVVM.ViewModel
         public TicTacToeViewModel()
         {
             SetupGameBoard();
-            PlayerOne = new Player();
+            Players = new Player();
             PlayerTwo = new Player();
             PlayerList = new ObservableCollection<Player>();
             database = new ItemDatabase();
@@ -177,9 +177,9 @@ namespace MyTicTacToe.MVVM.ViewModel
                         }
                         if (playerOneCount == 3)
                         {
-                            PlayerOne.Win += 1;
+                            Players.Win += 1;
                             PlayerTwo.Lose += 1;
-                            Console.WriteLine("Wins: " + PlayerOne.Win);
+                            Console.WriteLine("Wins: " + Players.Win);
                             WinOrDrawText = "Player 1 wins";
                             _isAnyoneWin = true;
                             break;
@@ -196,7 +196,7 @@ namespace MyTicTacToe.MVVM.ViewModel
                         if (playerTwoCount == 3)
                         {
                             PlayerTwo.Win += 1;
-                            PlayerOne.Lose += 1;
+                            Players.Lose += 1;
                             WinOrDrawText = "Player 2 wins";
                             _isAnyoneWin = true;
                             break;
@@ -208,23 +208,23 @@ namespace MyTicTacToe.MVVM.ViewModel
             if (ticTacToeList.Count(l => l.Player.HasValue) == 9 && !_isAnyoneWin)
             {
                 WinOrDrawText = "it is a draw";
-                PlayerOne.Draw += 1;
+                Players.Draw += 1;
                 PlayerTwo.Draw += 1;
                 //Preferences.Set(WinOrDrawText, _isAnyoneWin); to set data in Sql Lite
             }
         }
         private async void AddHeighscore()
         {
-            if (PlayerList.Where(p => p.Name == PlayerOne.Name).Count() != 0)
+            if (PlayerList.Where(p => p.Name == Players.Name).Count() != 0)
             {
-                Player playerChange = PlayerList.Where(p => p.Name == PlayerOne.Name).First();
-                playerChange.Win += PlayerOne.Win;
-                playerChange.Draw += PlayerOne.Draw;
-                playerChange.Lose += PlayerOne.Lose;
+                Player playerChange = PlayerList.Where(p => p.Name == Players.Name).First();
+                playerChange.Win += Players.Win;
+                playerChange.Draw += Players.Draw;
+                playerChange.Lose += Players.Lose;
             }
             else
             {
-                PlayerList.Add(PlayerOne);
+                PlayerList.Add(Players);
 
             }
 

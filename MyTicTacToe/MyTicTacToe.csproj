@@ -59,6 +59,9 @@
 	  <MauiXaml Update="MVVM\View\HeighscoreView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="MVVM\View\LobbyView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="MVVM\View\StartView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -8,7 +8,7 @@ namespace MyTicTacToe.MVVM.ViewModel
     public partial class StartViewModel : ObservableObject
     {
         [ObservableProperty]
-        public Player _playerOne;
+        public Player _players;
 
 
         [ObservableProperty]
@@ -16,23 +16,38 @@ namespace MyTicTacToe.MVVM.ViewModel
 
         public StartViewModel()
         {
-            PlayerOne = new Player();
-            PlayerTwo = new Player();
+            Players = new Player();
         }
 
         [RelayCommand]
-        public async Task GoToGameBoard()
+        public async Task CreateGame()
         {
-            if(PlayerOne.Name != null || PlayerTwo.Name != null) 
+            if(Players.Name != null || Players.GroupName != null) 
             {
-                await Shell.Current.GoToAsync($"//TicTacToe",true, 
+                await Shell.Current.GoToAsync($"//Lobby",true, 
                     new Dictionary<string, object>
                     {
-                        ["PlayerOne"] = PlayerOne,
-                        ["PlayerTwo"] = PlayerTwo
+                        ["Players"] = Players,
                     });
-                PlayerOne = new Player();
-                PlayerTwo = new Player();
+                Players = new Player();
+            }
+            else
+            {
+                Error = "please enter a name for bothe player!!";
+            }
+        }
+
+        [RelayCommand]
+        public async Task JoinGame()
+        {
+            if (Players.Name != null || Players.GroupName != null)
+            {
+                await Shell.Current.GoToAsync($"//Lobby", true,
+                    new Dictionary<string, object>
+                    {
+                        ["Players"] = Players,
+                    });
+                Players = new Player();
             }
             else
             {
