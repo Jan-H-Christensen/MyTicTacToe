@@ -10,7 +10,6 @@ namespace MyTicTacToe.MVVM.Model
     internal class SessionStart
     {
         public string GroupName { get; set; }
-        public bool X_Or_O { get; set; }
-        public TicTacToe? ticTacToe { get; set; }
+        public string SessionChar { get; set; }
     }
 }

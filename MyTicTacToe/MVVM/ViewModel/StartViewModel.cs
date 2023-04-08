@@ -1,12 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MyTicTacToe.MVVM.Model;
+using MyTicTacToe.Services;
 
 namespace MyTicTacToe.MVVM.ViewModel
 {
  
     public partial class StartViewModel : ObservableObject
     {
+        private SignalR signalR = SignalR.GetInstance();
+
         [ObservableProperty]
         public Player _players;
 
@@ -23,10 +26,12 @@ namespace MyTicTacToe.MVVM.ViewModel
         {
             if(Players.Name != null || Players.GroupName != null) 
             {
-                await Shell.Current.GoToAsync($"//Lobby",true, 
+                //await signalR.StartGame(Players);
+                await Shell.Current.GoToAsync($"//Lobby", true,
                     new Dictionary<string, object>
                     {
                         ["Players"] = Players,
+                        ["IsVisable"] = true
                     });
                 Players = new Player();
             }
@@ -38,13 +43,15 @@ namespace MyTicTacToe.MVVM.ViewModel
 
         [RelayCommand]
         public async Task JoinGame()
-        {
+        {          
             if (Players.Name != null || Players.GroupName != null)
             {
+                //await signalR.StartGame(Players);
                 await Shell.Current.GoToAsync($"//Lobby", true,
                     new Dictionary<string, object>
                     {
                         ["Players"] = Players,
+                        ["IsVisable"] = false
                     });
                 Players = new Player();
             }
