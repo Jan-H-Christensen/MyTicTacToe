@@ -8,5 +8,8 @@ namespace MyTicTacToe.MVVM.Model
 {
     internal class SessionControler
     {
+        public string GroupName { get; set; }
+        public bool Turn { get; set; }
+        public TicTacToe? ticTacToe { get; set; }
     }
 }
