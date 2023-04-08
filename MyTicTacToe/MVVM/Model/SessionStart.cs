@@ -11,5 +11,7 @@ namespace MyTicTacToe.MVVM.Model
     {
         public string GroupName { get; set; }
         public string SessionChar { get; set; }
+        public string Player1 { get; set; }
+        public string Player2 { get; set; }
     }
 }

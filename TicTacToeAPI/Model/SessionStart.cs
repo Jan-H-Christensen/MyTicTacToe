@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace MyTicTacToe.MVVM.Model
 {
-    public class SessionStart : ObservableObject
+    internal class SessionStart
     {
         public string GroupName { get; set; }
-        public bool X_Or_O { get; set; }
-        public TicTacToe? ticTacToe { get; set; }
+        public string SessionChar { get; set; }
+        public string Player1 { get; set; }
+        public string Player2 { get; set; }
     }
 }

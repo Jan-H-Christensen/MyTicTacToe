@@ -46,7 +46,13 @@ namespace MyTicTacToe.Services
         public Player _playerGroupe;
 
         [ObservableProperty]
-        public SessionStart _session;
+        public SessionStart _sessionStart;
+
+        [ObservableProperty]
+        public SessionControler _sessionControll;
+
+        [ObservableProperty]
+        public string _playerContainer;
 
         [ObservableProperty]
         public string _player1 = "";
@@ -63,17 +69,17 @@ namespace MyTicTacToe.Services
 
             hubConnection.On<Player>("PlayerConnected",(Player) =>
             {
-                Player2 = Player.Name;
-                PlayerGroupe = Player;
+                PlayerContainer = Player.Name;
             });
 
             hubConnection.On<SessionStart>("SessionStart",(SessionKey) =>
             {
-                YourTurn = SessionKey.X_Or_O;
-                this.Session = SessionKey;
+                SessionStart = SessionKey;
+                Player1 = SessionKey.Player1;
+                Player2 = SessionKey.Player2;
             });
 
-            hubConnection.On<SessionStart>("GameUpdate", (SessionKey) =>
+            hubConnection.On<SessionControler>("GameUpdate", (SessionKey) =>
             {
                 foreach (TicTacToe item in ticTacToeList)
                 {
@@ -82,14 +88,12 @@ namespace MyTicTacToe.Services
                         item.GetSelectedText = SessionKey.ticTacToe.GetSelectedText;
                     }
                 }
-                YourTurn = SessionKey.X_Or_O;
-                this.Session = SessionKey;
+                YourTurn = SessionKey.Turn;
             });
 
             await hubConnection.StartAsync();
 
             await hubConnection.SendAsync("ConnectToGameSession", MyPlayer);
-            Player1 = MyPlayer.Name;
         }
 
         public async Task StartSession(SessionStart sessionKey)
@@ -97,7 +101,7 @@ namespace MyTicTacToe.Services
             await hubConnection.SendAsync("StartGameSession", sessionKey);
         }
 
-        public async Task UpdateSession(SessionStart sessionKey)
+        public async Task UpdateSession(SessionControler sessionKey)
         {
             await hubConnection.SendAsync("UpdateGameSession", sessionKey);
         }
