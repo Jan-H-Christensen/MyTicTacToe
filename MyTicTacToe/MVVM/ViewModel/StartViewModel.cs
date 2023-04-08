@@ -10,7 +10,6 @@ namespace MyTicTacToe.MVVM.ViewModel
         [ObservableProperty]
         public Player _players;
 
-
         [ObservableProperty]
         public string _error;
 
